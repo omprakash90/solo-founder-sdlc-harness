@@ -1,0 +1,29 @@
+<!--
+ADR template. Written by a human on each major technical decision.
+Filed under docs/decisions/ADR-NNN-<title>.md. Agents read these and
+treat them as settled — they surface conflicts rather than re-litigating.
+-->
+
+# ADR-NNN: <Title>
+
+**Status:** proposed | accepted | superseded by ADR-XXX
+**Date:** <today>
+
+## Context
+
+<!-- What problem or fork in the road prompted this decision?
+     What constraints applied (team size, budget, timeline, stage)? -->
+
+## Decision
+
+<!-- What was decided, stated plainly. -->
+
+## Alternatives considered
+
+<!-- At least one rejected alternative and why it lost. -->
+
+## Consequences
+
+<!-- What this makes easier, what it makes harder, what it defers,
+     and under what condition this decision should be revisited. -->
+</content>

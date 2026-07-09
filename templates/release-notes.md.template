@@ -1,0 +1,34 @@
+<!--
+Release notes template — written by the ship-epic skill (Phase 5) at
+docs/releases/<YYYY-MM-DD>-<slug>.md after an epic merges to main.
+-->
+
+# Release: <Epic title>
+
+Date: <today>
+Epic: E0N — <slug>
+PR: #<number>
+
+## What shipped
+
+<!-- One paragraph, plain English, written for a non-technical reader. -->
+
+## Acceptance criteria delivered
+
+<!-- Copy from the PRD, mark any accepted gaps. -->
+
+- AC-1: ...
+
+## Accepted gaps
+
+<!-- Any ACs accepted as known gaps, with reason. If none: "None." -->
+
+## Manual smoke test
+
+1. <step>
+
+## Follow-up issues filed
+
+<!-- Any SHOULD-FIX items filed as issues rather than fixed in this PR.
+     If none: "None." -->
+</content>

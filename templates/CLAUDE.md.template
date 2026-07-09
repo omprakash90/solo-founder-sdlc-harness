@@ -1,0 +1,186 @@
+# <Project Name> — Project Memory
+
+> <!-- One-line tagline for the product. -->
+
+Read docs/product-outline.md for the product north star (10 lines).
+Read docs/architecture.md for full technical decisions.
+Read docs/epics/backlog.md for the current build order.
+This file is the short-form truth. architecture.md is the long-form.
+
+---
+
+## Stack
+
+<!-- Fill in this project's actual stack. One row per layer. -->
+
+| Layer    | Technology |
+| -------- | ---------- |
+| Frontend |            |
+| Backend  |            |
+| Database |            |
+| Auth     |            |
+| Hosting  |            |
+
+---
+
+## Commands
+
+```bash
+# Fill in this project's actual dev/build/lint/test/db commands.
+pnpm dev
+pnpm build
+pnpm lint
+pnpm typecheck
+pnpm test
+```
+
+---
+
+## Repository structure
+
+<!-- Fill in this project's actual directory layout. -->
+
+```
+<project>/
+├── CLAUDE.md                    ← you are here
+├── docs/
+│   ├── architecture.md          ← binding for all agents
+│   ├── decisions/                ← ADRs
+│   ├── epics/backlog.md          ← epics, build order
+│   ├── prds/                     ← written by product-manager agent
+│   ├── trds/                     ← written by architect agent
+│   ├── designs/                  ← built by ui-designer agent
+│   └── releases/                 ← written by ship-epic skill
+├── .claude/                      ← dev pipeline (agents + skills)
+└── ...                           ← your app/package layout
+```
+
+---
+
+## Where things live
+
+| Artifact        | Path                                 | Created by                               |
+| ---------------- | ------------------------------------- | ----------------------------------------- |
+| Product outline  | `docs/product-outline.md`             | Human (north star)                        |
+| Architecture     | `docs/architecture.md`                | Human (locked)                            |
+| ADRs             | `docs/decisions/ADR-NNN-*.md`         | Human                                      |
+| Backlog          | `docs/epics/backlog.md`               | Human                                      |
+| PRD              | `docs/prds/<slug>.md`                 | product-manager agent                     |
+| TRD              | `docs/trds/<slug>.md`                 | architect agent                           |
+| Designs          | `docs/designs/<slug>/`                | ui-designer agent                         |
+| Release notes    | `docs/releases/<date>-<slug>.md`      | ship-epic skill                           |
+| ADR (new)        | `docs/decisions/ADR-NNN-<title>.md`   | Human (on each major technical decision)  |
+
+---
+
+## Environments
+
+<!-- Fill in this project's actual environments/URLs. -->
+
+| Environment | URL | Notes |
+| ----------- | --- | ----- |
+| Local       |     |       |
+| Staging     |     |       |
+| Production  |     |       |
+
+---
+
+## Package/module boundary rules — NON-NEGOTIABLE
+
+<!-- Adapt these six rules to this project's actual package layout.
+     The principle matters more than the specific paths: business logic
+     stays out of thin route handlers, packages talk through public
+     exports only, no shared mutable state, communication is a function
+     call or a typed call, nothing assumes same-process execution
+     forever, and there's a clear frontend/backend boundary. -->
+
+1. **Business logic lives in a dedicated core layer — never in thin route
+   handlers.** Routes: parse request → auth check → rate limit →
+   call core → return response. Nothing else.
+
+2. **Packages/modules talk through public exports only.**
+   No deep imports into another module's internals.
+
+3. **No shared mutable state between packages.**
+   Each consumer creates its own client or receives one as a parameter.
+
+4. **Communication is a function call (same process) or a typed call.**
+   Types come from a shared types package. No hidden side-channels.
+
+5. **Anything that could become a separate service must not assume
+   same-process execution.** Write it as if the caller might already
+   be remote.
+
+6. **Frontend/backend boundary:** define clearly which layers may call
+   business logic directly vs. must go over HTTP.
+
+---
+
+## Non-negotiable engineering rules
+
+Every agent follows these without exception. No PRD or TRD overrides them.
+
+### Every HTTP route must have all four:
+
+- **Input validation** on the request
+- **Auth check** (verify session) on every protected route
+- **Rate limit** check
+- **Structured log line** (include: userId, action, durationMs, status)
+
+### Every feature must have all three tests:
+
+- **Happy path** — the thing works as expected
+- **Failure path** — what happens when input is wrong / user unauthorized / service is down
+- **Edge case** — empty state, max length, concurrent request, boundary value
+
+### Untrusted content rules (if applicable to this project):
+
+<!-- Fill in this project's actual untrusted-content handling —
+     uploaded files, AI-generated content, prompt injection defenses. -->
+
+### Security:
+
+- Secrets only via environment variables. Never commit `.env*`.
+- Never log secrets, passwords, or PII.
+- SQL: parameterized queries only. No string interpolation.
+
+### Branch and commit discipline:
+
+- Never edit `main` directly.
+- Branch name: `feat/<slug>` or `fix/<slug>`.
+- One PR = one epic.
+- Commit format: `feat|fix|chore(scope): message`
+
+### Dependency discipline:
+
+- Do NOT add a new library or service without asking first.
+- For any new dependency, name one rejected alternative and justify the choice.
+- Match patterns already in the codebase.
+
+---
+
+## Brand
+
+<!-- Fill in this project's voice, visual direction, inspiration. -->
+
+---
+
+## Conventions
+
+<!-- Fill in this project's language/style conventions
+     (type safety rules, component patterns, styling approach, etc). -->
+
+---
+
+## Stop conditions for all agents
+
+Stop and surface to the user (do not continue) if:
+
+- A TRD is missing when implementation is about to start.
+- The PRD or TRD conflicts with `docs/architecture.md`.
+- Implementation requires a new dependency not already in the project.
+- Tests fail twice in a row — do not auto-fix by changing the tests.
+- An architectural deviation is needed — surface it, never silently diverge.
+- Any of the package/module boundary rules would be violated.
+- Any of the non-negotiable engineering rules cannot be followed.
+</content>

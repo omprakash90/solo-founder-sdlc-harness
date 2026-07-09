@@ -1,0 +1,22 @@
+<!--
+Product outline — the north star. Keep this to ~10 lines. Rarely changes.
+Every agent (grill-me, product-manager, architect, ui-designer) reads
+this first and aligns to it. If a decision conflicts with this document,
+the document wins — update it deliberately, don't let scope drift silently.
+
+Suggested shape (adapt freely, but keep it short):
+-->
+
+# <Product Name> — Product Outline
+
+1. **What it is:** <one sentence>
+2. **Who it's for:** <specific user type, not "everyone">
+3. **The problem:** <what pain exists today without this>
+4. **The core loop:** <the one thing a user does repeatedly>
+5. **What makes it different:** <the actual differentiator, not marketing copy>
+6. **What's explicitly NOT in scope (v1):** <guardrail against scope creep>
+7. **Success looks like:** <one measurable outcome, at the product level>
+8. **Monetization (if applicable):** <one line>
+9. **Biggest risk:** <the thing most likely to kill this>
+10. **Why now:** <the timing argument>
+</content>

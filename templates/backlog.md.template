@@ -1,0 +1,30 @@
+<!--
+Epic backlog — the build order. One row per epic. Status values:
+todo, in-progress, review, shipped, blocked.
+
+Slug -> path mapping (this drives every downstream artifact):
+  docs/prds/<slug>.md
+  docs/trds/<slug>.md
+  docs/designs/<slug>/
+  docs/releases/<date>-<slug>.md
+  branch: feat/<slug>
+  GitHub label: epic:E0N, milestone: E0N — <title>
+-->
+
+# Epic Backlog
+
+| ID  | Slug | One-liner | Status |
+| --- | ---- | --------- | ------ |
+| E01 |      |           | todo   |
+| E02 |      |           | todo   |
+
+## Build order rationale
+
+<!-- Why this order — dependency chain, riskiest-assumption-first,
+     revenue-critical-path-first, whatever your actual reasoning is. -->
+
+## MVP boundary
+
+<!-- Which epics are "must ship before this counts as a real product"
+     vs. "post-MVP." -->
+</content>

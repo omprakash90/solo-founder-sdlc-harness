@@ -1,0 +1,60 @@
+<!--
+TRD template — the exact shape the architect agent writes into
+docs/trds/<slug>.md. The implementer treats this as their architectural
+authority; there should be zero architectural decisions left for them
+to invent.
+-->
+
+# TRD: <Epic title>
+
+**Epic:** E0N — <slug>
+**PRD:** docs/prds/<slug>.md
+**Status:** draft
+**Author:** architect agent
+**Date:** <today>
+
+---
+
+## Summary
+
+<!-- 3 sentences max. -->
+
+## Data model
+
+### New tables
+
+### Modified tables
+
+### Migration notes
+
+## API surface
+
+<!-- Every endpoint: method, path, auth, rate limit, request/response
+     shapes, error codes, idempotency. -->
+
+## Auth and authz
+
+## Rate limits
+
+## Embeddings (if applicable)
+
+## Background jobs (if applicable)
+
+## External calls (if applicable)
+
+## Observability
+
+## Failure modes
+
+<!-- Name at least 3. Cause / Detection / Response for each. -->
+
+## Trade-offs considered
+
+<!-- Mandatory — name at least one rejected alternative and why. -->
+
+## Open questions
+
+## Package and file map
+
+<!-- Where the new code will live, one line per new file/module. -->
+</content>

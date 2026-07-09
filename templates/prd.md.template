@@ -1,0 +1,58 @@
+<!--
+PRD template — this is the exact shape the product-manager agent writes
+into docs/prds/<slug>.md. Keep it under 300 lines. Acceptance criteria
+over prose. Every AC must be testable/falsifiable.
+-->
+
+# PRD: <Epic title>
+
+**Epic:** E0N — <slug>
+**Status:** draft
+**Author:** product-manager agent
+**Date:** <today>
+
+---
+
+## Problem
+
+<!-- One paragraph. Specific user type and situation. -->
+
+## Users
+
+<!-- Who uses this. Be specific, not "a user". -->
+
+## Success metric
+
+<!-- ONE measurable thing. Not a list. -->
+
+## User stories
+
+<!-- 3-7, priority order, each maps to >=1 AC -->
+
+US-1: As a <specific user> I want <action> so that <outcome>.
+
+## Acceptance criteria
+
+<!-- Numbered, testable, unambiguous. No "should"/"nice"/"fast"/"friendly". -->
+
+AC-1: ...
+AC-2: ...
+
+## Screens and states
+
+<!-- Every screen and state — becomes the ui-designer agent's input. -->
+
+- <screen-slug>: <one sentence>
+
+## Out of scope
+
+<!-- Explicit — prevents scope creep during implementation. -->
+
+## Dependencies
+
+<!-- Other epics that must ship first. -->
+
+## Open questions
+
+<!-- Unresolved items, or "None". -->
+</content>
