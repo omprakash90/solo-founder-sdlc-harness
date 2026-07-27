@@ -1,4 +1,4 @@
-# Philosophy: Harness AI Development
+# Philosophy: Solo-Founder SDLC Harness
 
 Why this framework exists, and the thinking behind each piece. This is
 the durable reference — the blog post is the narrated version of this
@@ -37,29 +37,51 @@ artifact (a PRD, a TRD, a GitHub Issue) instead of an ephemeral chat
 turn. That artifact is what the next agent — and the next session, and
 the human — actually reads.
 
-**Seven roles, covering an end-to-end SDLC:**
+**The roles, covering an end-to-end SDLC from idea to launch:**
 
-| Role              | Produces                          | Model  |
-| ----------------- | ---------------------------------- | ------ |
-| grill-me           | shared understanding (grooming)   | opus   |
-| product-manager    | PRD                                | —      |
-| architect          | TRD                                | opus   |
-| ui-designer        | React + Tailwind preview           | —      |
-| kanban-generator   | vertical task slices as GitHub Issues | —  |
-| implementer        | working code, one task at a time  | —      |
-| qa-engineer        | tests against AC, not code        | —      |
-| code-reviewer      | BLOCKER / SHOULD-FIX / NIT         | —      |
+| Role              | Stage        | Produces                          | Model  |
+| ----------------- | ------------ | ---------------------------------- | ------ |
+| founder-grill      | discover     | product thesis (idea interview)   | opus   |
+| idea-validator     | discover     | validation memo (opt-in)          | —      |
+| product-strategist | discover     | product-outline.md (north star)   | —      |
+| system-architect   | plan-product | architecture.md (first pass)      | opus   |
+| epic-planner       | plan-product | backlog.md (epics + MVP boundary) | —      |
+| grill-me           | groom        | shared understanding (grooming)   | opus   |
+| product-manager    | groom        | PRD                                | —      |
+| architect          | groom        | TRD                                | opus   |
+| ui-designer        | groom        | React + Tailwind preview           | —      |
+| kanban-generator   | groom        | vertical task slices as Issues    | —      |
+| implementer        | ship         | working code, one task at a time  | —      |
+| qa-engineer        | ship         | tests against AC, not code        | —      |
+| code-reviewer      | ship         | BLOCKER / SHOULD-FIX / NIT         | —      |
+| launch-manager     | launch       | release rollup + readiness gate   | —      |
 
-grill-me and architect run on the highest-leverage thinking model
-available (opus) — get those two right and every downstream agent
-inherits clean input. The rest run on whatever's inherited/default,
+The interviewers and the two architects (founder-grill, grill-me,
+system-architect, architect) run on the highest-leverage thinking model
+available (opus) — get the thinking steps right and every downstream
+agent inherits clean input. The rest run on whatever's inherited/default,
 because their job is narrower and more mechanical.
+
+The framework splits into two altitudes. **Inception + planning**
+(founder-grill → product-strategist → system-architect → epic-planner)
+runs ONCE per product and turns a raw idea into the three anchor
+documents. **Per-epic** grooming and shipping then loop over the backlog.
+This repo implements **solo-founder mode**: one person as the orchestrator,
+the AI proposing and the human approving. A software-team mode with
+explicit role separation is a plausible extension, not built here.
 
 ## 3. The three documents that anchor everything
 
 - **product-outline.md** — north star, ~10 lines, rarely changes.
 - **architecture.md** — binding technical decisions, long-form.
 - **CLAUDE.md** — short-form project memory every agent reads first.
+
+In solo-founder mode these are no longer hand-written prerequisites: the
+inception stage generates them. The founder writes only `docs/idea.md` —
+a few raw paragraphs — and `/discover` + `/plan-product` turn it into the
+product-outline, the first-pass architecture, and the epic backlog. The
+human still owns them (reviewing, editing, locking each), but starts from
+a draft the agents produced rather than a blank page.
 
 The principle: agents need shared context, not clever prompts. A PRD
 that says "AC-3: returns 400 on invalid email" is worth more than any
@@ -98,12 +120,28 @@ not in your context window.
 These live in CLAUDE.md's "Non-negotiable engineering rules" section
 and every agent reads that file before doing anything.
 
-## 6. The two-skill pipeline
+## 6. The pipeline
 
+The full path from idea to launch, each stage a skill that stops for your
+judgment:
+
+- **`/discover`** = inception (idea → founder-grill interview → optional
+  validation → product-outline.md). Run once per product.
+- **`/plan-product`** = planning (product-outline → first-pass
+  architecture.md → epic backlog with an MVP boundary). Run once per
+  product.
 - **`/groom-epic`** = thinking (grill-me → PRD + TRD + designs in
-  parallel → GitHub Issues).
+  parallel → GitHub Issues). Run once per epic.
 - **`/ship-epic`** = building (pick task → implement → test → review →
-  staging → merge).
+  staging → merge). Run once per epic.
+- **`/launch`** = go-live (roll up the shipped MVP epics + a
+  launch-readiness checklist). Run once, when the MVP boundary is met.
+
+The same principle scales to the front and back of the funnel: inception
+and planning are *thinking* (your full judgment, one decision at a time,
+so they get their own skills and stop-heavy flows), building is *doing*
+(autonomous between genuine stop conditions), and launch is a single
+human go/no-go gate rather than an auto-deploy.
 
 Splitting thinking from building matters because they have different
 failure modes and different human-attention requirements. Grooming
@@ -116,11 +154,20 @@ the build or rubber-stamping the thinking. Neither is good.
 
 ## 7. Human checkpoints — where you actually matter
 
+- Idea confirmation (is this the right thesis — did founder-grill capture
+  the problem, user, and wedge correctly?)
+- Product-outline review (is this north star true? it becomes the
+  tiebreaker for every later decision)
+- Architecture lock (first-pass architecture.md is AI-drafted; you still
+  gate it — the whole product's technical ground rules are yours to own)
+- MVP-boundary sign-off (is this the smallest set of epics that makes a
+  real product?)
 - PRD review (does this solve the right problem?)
 - Design approval (in-browser, plain-English feedback)
 - TRD review (AI-generated, you still gate it — architecture decisions
   are still yours to own)
 - Staging verification (does it actually work, on a real deploy?)
+- Launch readiness (final go/no-go — nothing auto-ships)
 
 The principle: you're not writing code, you're making decisions. Every
 phase gate exists because the decision at that point is one only a

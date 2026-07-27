@@ -1,0 +1,47 @@
+<!--
+Launch checklist template — written by the /launch skill (via the
+launch-manager agent) at docs/releases/launch-<YYYY-MM-DD>.md once every epic
+inside the MVP boundary (docs/epics/backlog.md) is shipped.
+
+This is a human go/no-go gate. The agent compiles it; the founder runs it.
+Nothing here auto-deploys.
+-->
+
+# Launch: <Product name> — MVP
+
+Date: <today>
+MVP epics: <E0N — slug for each, all shipped>
+
+## What we're launching
+
+<!-- One paragraph, plain English, for a non-technical reader. What can a user
+     do now, end to end? Frame it against the product outline's core loop. -->
+
+## Epics in this launch
+
+| Epic | Slug | Shipped | Release notes |
+| ---- | ---- | ------- | ------------- |
+| E01  | ...  | <date>  | docs/releases/<date>-<slug>.md |
+
+## Known gaps carried into launch
+
+<!-- Roll up every "Accepted gaps" from the per-epic release notes.
+     If none: "None." -->
+
+## Launch-readiness checklist
+
+<!-- The founder runs this. Leave boxes unchecked for the human. -->
+
+- [ ] All MVP epics shipped and merged to main
+- [ ] Smoke test of the full core loop passes on production
+- [ ] Auth / rate-limit / logging verified on the primary user paths
+- [ ] Rollback path known and tested
+- [ ] Monetization path live (if v1 charges) or explicitly deferred
+- [ ] Success metric instrumented so you can tell if launch worked
+- [ ] Support / feedback channel exists
+- [ ] Announcement drafted for the beachhead channel
+
+## After launch — what to watch
+
+<!-- The product outline's success metric + biggest risk. Name the one number
+     that tells you within a week whether the launch is working. -->
