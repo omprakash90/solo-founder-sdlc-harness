@@ -57,6 +57,33 @@ pnpm test
 
 ---
 
+## Multi-repo workspace (optional)
+
+<!-- Delete this section if the product is a single repo.
+     Fill it in if this CLAUDE.md sits in a WORKSPACE directory that is the
+     parent of several sibling service/product repos, each with its own git
+     history and remote. This is the layout the harness's
+     `scripts/sync-workspace.sh` + `/update-harness` skill assume:
+       workspace/
+       ├── CLAUDE.md              ← you are here (this file)
+       ├── .claude/                 pulled from the harness repo — do not
+       │                            hand-edit; run `/update-harness pull`
+       │                            to refresh, `/update-harness push` to
+       │                            send local agent/skill changes back
+       ├── <harness-repo>/          the reusable, pushable harness source
+       ├── <service-a>/             own git history + remote
+       ├── <service-b>/
+       └── <docs/handbook-repo>/    context + decisions, not code —
+                                     agents read this before making calls
+                                     that affect more than one service
+     List the actual sibling repos and what each one is below. -->
+
+| Repo | Role |
+| ---- | ---- |
+|      |      |
+
+---
+
 ## Where things live
 
 | Artifact        | Path                                 | Created by                               |
