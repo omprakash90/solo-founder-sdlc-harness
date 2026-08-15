@@ -21,13 +21,17 @@ This README is the what's-in-here + how-to-use guide.
 solo-founder-sdlc-harness/
 ├── .claude/
 │   ├── agents/        14 specialist agent definitions (one job each)
-│   ├── skills/        5 pipeline commands (see below)
+│   ├── skills/        6 pipeline commands (see below)
 │   │   ├── discover/       inception: idea → product outline
 │   │   ├── plan-product/   planning: outline → architecture + backlog
 │   │   ├── groom-epic/     the THINKING pipeline (per epic)
 │   │   ├── ship-epic/      the BUILDING pipeline (per epic)
-│   │   └── launch/         go-live: rollup + readiness checklist
+│   │   ├── launch/         go-live: rollup + readiness checklist
+│   │   └── update-harness/ sync .claude/ + templates/ with a parent
+│   │                        workspace, in workspace mode (see below)
 │   └── settings.json  hooks: main-branch guard, post-edit lint, audit log
+├── scripts/
+│   └── sync-workspace.sh  pull/push between this repo and a workspace dir
 ├── templates/         blank doc templates (idea, CLAUDE.md, PRD, TRD, ...)
 └── docs/philosophy.md why this is shaped the way it is
 ```
@@ -162,6 +166,60 @@ those gates the agents work on their own.
    first — `/plan-product` writes `docs/architecture.md`, which tells you
    what to put in `CLAUDE.md`.)
 5. Then follow "How to use it" above, starting at step 1.
+
+## Working across multiple repos (workspace mode)
+
+The instructions above assume the harness is copied straight into a single
+product repo. If your product is actually several sibling repos — separate
+services, a frontend, a docs/handbook repo — copying `.claude/` into each
+one duplicates it N times and lets them drift.
+
+Workspace mode instead keeps this repo as the single, pushable source of
+truth and gives every sibling repo a shared `.claude/` one level up:
+
+```
+workspace/                    ← start your Claude Code session HERE
+├── .claude/                  ← pulled from solo-founder-sdlc-harness (this repo)
+├── templates/                ← pulled from this repo
+├── CLAUDE.md                 ← seeded once from templates/CLAUDE.md.template,
+│                                 filled in by hand, never overwritten after
+├── solo-founder-sdlc-harness/  ← this repo, cloned as a sibling — edit
+│                                  agents/skills here, commit, PR upstream
+├── service-a/                 ← your own repo, own git history/remote
+├── service-b/
+└── handbook/                  ← docs/decisions, not code — agents read this
+                                   before making calls that span services
+```
+
+Why a *copy* of `.claude/` in the workspace root instead of pointing agents
+at the sibling harness repo directly: Claude Code discovers `.claude/`
+relative to the session's working directory, and every sibling repo needs
+to be an ordinary subdirectory of that root — not a sibling of it — or
+every cross-repo read/write is a permission-prompting boundary crossing.
+
+**Setup:**
+
+1. Clone this repo as a sibling inside your workspace directory.
+2. From inside the clone, run `bash scripts/sync-workspace.sh pull` (or the
+   `/update-harness pull` skill from a Claude Code session started in the
+   clone) — this copies `.claude/` and `templates/` up into the workspace
+   root and seeds `CLAUDE.md` there if it doesn't exist yet.
+3. Fill in the workspace's `CLAUDE.md`, including the "Multi-repo workspace"
+   table naming each sibling repo and its role.
+4. Start your Claude Code session in the workspace root from then on.
+
+**Keeping it in sync:**
+
+- Built or improved an agent/skill while working in the workspace?
+  Run `/update-harness push` (or `scripts/sync-workspace.sh push`) from
+  inside the harness clone — it diffs the workspace's `.claude/` against
+  the repo's, and on confirmation copies changes back so you can branch,
+  commit, and open a PR against this repo.
+- Pulled a harness update from GitHub (`git pull` inside the clone) and
+  want it reflected in your workspace? Run `/update-harness pull`.
+
+Neither direction ever touches the sibling service/product repos — only
+`.claude/`, `templates/`, and (on first pull only) `CLAUDE.md`.
 
 ## What this is not (yet)
 
