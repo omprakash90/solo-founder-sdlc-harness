@@ -117,21 +117,48 @@ STOP. Wait.
 ## Phase 4 — Staging
 
 On "stage":
-Tell user:
+
+First push the branch: `git push origin feat/$ARGUMENTS`, then open the PR
+if one doesn't exist yet (`gh pr create`).
+
+Check whether this project has an automated dev-deploy path: look for a
+`deploy-dev.yml` (or similarly named) GitHub Actions workflow in the
+repo(s) this epic touched, and a documented staging/dev deploy command in
+`docs/architecture.md` or `CLAUDE.md`.
+
+**If an automated `deploy-dev.yml`-style workflow exists:**
+Tell the user:
+"PR is open: <PR URL>. Say 'deploy' to push this to the dev environment
+for validation, or deploy manually yourself."
+STOP. Wait.
+
+On "deploy": run `gh workflow run deploy-dev.yml --repo <owner/repo> -f
+tag=pr-<n> -f pr_url=<PR URL>` for each affected repo (substitute the
+project's actual workflow inputs if they differ — read the workflow file
+first rather than assuming). Report the triggered run URL(s) and tell the
+user E2E results (if the project wires them up) and any other evidence
+will land wherever the project's CI is configured to send them (e.g.
+Slack) — check `docs/architecture.md` for where. Then continue to
+verification below.
+
+**If no automated dev-deploy workflow exists**, fall back to the manual
+path — tell the user:
 
 "Deploy to staging now:
-git push origin feat/$ARGUMENTS
 <this project's deploy command — see docs/architecture.md>
 
-Staging URL: <this project's preview URL for this branch>
+Staging URL: <this project's preview URL for this branch>"
 
-Verify on staging:
+**Either way**, once deployed:
+
+"Verify on staging/dev:
 
 - Walk through the manual test checklist on the epic issue
 - Check each screen matches the approved designs
 - Test on mobile (375px) and desktop (1280px)
+- If automated E2E/evidence was posted (e.g. to Slack), review it too
 
-Say 'ship' when staging looks good.
+Say 'ship' when it looks good.
 Say 'fix: <what is wrong>' if you find an issue."
 
 STOP. Wait.
@@ -153,6 +180,9 @@ On "ship":
    "Merge feat/$ARGUMENTS → main
     (e.g.: gh pr merge feat/$ARGUMENTS --squash --delete-branch)
    Then say 'merged'."
+   If the repo has a `deploy-prod.yml`-style workflow triggered on push
+   to main, mention it: "Merging will automatically deploy to production
+   — no separate deploy step needed."
    STOP. Wait for "merged".
 
 2. On "merged", write docs/releases/<YYYY-MM-DD>-$ARGUMENTS.md:
